@@ -6,7 +6,7 @@ namespace CardGameWar
     {
         static void Main(string[] args)
         {
-            WarGame warGame = new WarGame(2);
+            WarGame warGame = new WarGame();
         }
     }
 }

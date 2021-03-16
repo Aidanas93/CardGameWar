@@ -1,25 +1,41 @@
-﻿using System;
+﻿using CardGameWar.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace CardGameWar.Models
 {
-    public abstract class Deck
+    public class Deck
     {
         public List<Card> Cards { get; private set; } = new List<Card>();
 
-        public void Initialize(int startFaceIndex, int endFaceIndex)
+        public void Initialize()
         {
             for (int i = 0; i < 4; i++)
             {
-                for (int j = startFaceIndex; j <= endFaceIndex; j++)
+                for (int j = 2; j <= 14; j++)
                 {
                     Cards.Add(new Card((Suit)i, (Face)j));
                 }
             }
         }
 
-        public abstract void Deal(List<Player> players);
+        public void Deal(List<Player> players)
+        {
+            if (Cards.Count == 0)
+                throw new Exception("Deck is not initialized.");
 
+            PlayerTurn currentPlayer = (int)PlayerTurn.First;
+
+            foreach (Card card in Cards)
+            {
+                players[(int)currentPlayer].Hand.Add(card);
+
+                if (currentPlayer == PlayerTurn.Second)
+                    currentPlayer = PlayerTurn.First;  
+                else
+                    currentPlayer = PlayerTurn.Second;
+            }
+        }
         public void Shuffle()
         {
             int n = Cards.Count;

@@ -9,10 +9,5 @@
             Suit = suit;
             Face = face;
         }
-
-        public override string ToString()
-        {
-            return Face.ToString() + " of " + Suit.ToString();
-        }
     }
 }

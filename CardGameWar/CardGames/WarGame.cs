@@ -1,4 +1,6 @@
-﻿using CardGameWar.Models;
+﻿using CardGameWar.Enums;
+using CardGameWar.Extensions;
+using CardGameWar.Models;
 using System;
 using System.Collections.Generic;
 
@@ -6,24 +8,21 @@ namespace CardGameWar.CardGames
 {
     public class WarGame
     {
-        public List<Player> Players { get; private set; } = new List<Player>();
-        public WarGameDeck Deck { get; private set; } = new WarGameDeck();
-        public Suit TrumpSuit { get; set; }
-        public WarGame(int playerCount)
+        public List<Player> Players { get; private set; } = new List<Player>() 
         {
-            SetPlayers(playerCount);
+            new Player(),
+            new Player(),
+        };
+        public Deck Deck { get; private set; } = new Deck();
+        public Suit TrumpSuit { get; set; }
+        public WarGame()
+        {
             SetTrumpCard();
 
-            Deck.Initialize(2, 14);
+            Deck.Initialize();
             Deck.Shuffle();
             Deck.Deal(Players);
             Play();
-        }
-
-        private void SetPlayers(int playerCount)
-        {
-            for(int i = 0; i < playerCount; i++)
-                Players.Add(new Player());
         }
 
         private void SetTrumpCard()
@@ -35,46 +34,44 @@ namespace CardGameWar.CardGames
 
         private void Play()
         {
-            int currentPlayer = 0;
-            int opponentPlayer = 1;
+            PlayerTurn currentPlayer = PlayerTurn.First;
+            PlayerTurn opponentPlayer = PlayerTurn.Second;
 
             while(Players[0].Hand.Count != 0)
             {
-                if (currentPlayer == Players.Count - 1)
-                    opponentPlayer = 0;
-
-                bool currentHaveTrump = Players[currentPlayer].IsTrumpSuit(TrumpSuit, Players[currentPlayer].Hand[0].Suit);
-                bool opponentTwoHaveTrump = Players[opponentPlayer].IsTrumpSuit(TrumpSuit, Players[opponentPlayer].Hand[0].Suit);
+                bool currentHaveTrump = Players[currentPlayer.Value()].IsTrumpSuit(TrumpSuit);
+                bool opponentTwoHaveTrump = Players[opponentPlayer.Value()].IsTrumpSuit(TrumpSuit);
 
                 if ((currentHaveTrump && opponentTwoHaveTrump) || (!currentHaveTrump && !opponentTwoHaveTrump))
                 {
-                    if (Players[currentPlayer].Hand[0].Face == Players[opponentPlayer].Hand[0].Face)
+                    if (Players[currentPlayer.Value()].Hand[0].Face == Players[opponentPlayer.Value()].Hand[0].Face)
                     {
-                        TieRound(currentPlayer, opponentPlayer);
+                        TieRound(currentPlayer.Value(), opponentPlayer.Value());
                     }
-                    else if (Players[currentPlayer].Hand[0].Face < Players[opponentPlayer].Hand[0].Face)
+                    else if (Players[currentPlayer.Value()].Hand[0].Face < Players[opponentPlayer.Value()].Hand[0].Face)
                     {
-                        OpponentPlayerWonRound(currentPlayer, opponentPlayer);
+                        OpponentPlayerWonRound(currentPlayer.Value(), opponentPlayer.Value());
                     }
                     else
                     {
-                        CurrentPlayerWonRound(currentPlayer, opponentPlayer);
+                        CurrentPlayerWonRound(currentPlayer.Value(), opponentPlayer.Value());
                     }
                 }
                 else if(currentHaveTrump && !opponentTwoHaveTrump)
                 {
-                    CurrentPlayerWonRound(currentPlayer, opponentPlayer);
+                    CurrentPlayerWonRound(currentPlayer.Value(), opponentPlayer.Value());
                 }
                 else
                 {
-                    OpponentPlayerWonRound(currentPlayer, opponentPlayer);
+                    OpponentPlayerWonRound(currentPlayer.Value(), opponentPlayer.Value());
                 }                
 
-                Players[currentPlayer].Hand.RemoveAt(0);
-                Players[opponentPlayer].Hand.RemoveAt(0);
+                Players[currentPlayer.Value()].Hand.RemoveAt(0);
+                Players[opponentPlayer.Value()].Hand.RemoveAt(0);
 
+                PlayerTurn playerToRemember = currentPlayer;
                 currentPlayer = opponentPlayer;
-                opponentPlayer++;
+                opponentPlayer = playerToRemember;
             }
         }
         private void CurrentPlayerWonRound(int currentPlayer, int opponentPlayer)

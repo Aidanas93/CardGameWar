@@ -7,7 +7,7 @@ namespace CardGameWar.Models
         public List<Card> Hand { get; private set; } = new List<Card>();
         public List<Card> ScorePile { get; private set; } = new List<Card>();
 
-        public bool IsTrumpSuit(Suit trumpSuit, Suit playerCard)
-            => trumpSuit == playerCard ? true : false;
+        public bool IsTrumpSuit(Suit trumpSuit)
+            => trumpSuit == Hand[0].Suit ? true : false;
     }
 }
