@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGameWar.Models
 {
@@ -9,5 +10,8 @@ namespace CardGameWar.Models
 
         public bool IsTrumpSuit(Suit trumpSuit)
             => trumpSuit == Hand[0].Suit ? true : false;
+
+        public Card GetCurrentCard()
+            => Hand.FirstOrDefault();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CardGameWar.Enums;
+using CardGameWar.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -24,20 +25,17 @@ namespace CardGameWar.Models
             if (Cards.Count == 0)
                 throw new Exception("Deck is not initialized.");
 
-            PlayerTurn currentPlayer = (int)PlayerTurn.First;
+            PlayerTurn currentPlayer = PlayerTurn.First;
 
             foreach (Card card in Cards)
             {
-                players[(int)currentPlayer].Hand.Add(card);
+                players[currentPlayer.Value()].Hand.Add(card);
 
                 if (currentPlayer == PlayerTurn.Second)
                     currentPlayer = PlayerTurn.First;  
                 else
                     currentPlayer = PlayerTurn.Second;
             }
-
-            if (players[0].Hand.Count != players[2].Hand.Count)
-                throw new Exception("Card count doesnt match.");
         }
         public void Shuffle()
         {
