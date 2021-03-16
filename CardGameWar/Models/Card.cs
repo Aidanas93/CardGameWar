@@ -1,4 +1,6 @@
-﻿namespace CardGameWar.Models
+﻿using CardGameWar.Extensions;
+
+namespace CardGameWar.Models
 {
     public class Card
     {
@@ -9,5 +11,15 @@
             Suit = suit;
             Face = face;
         }
+
+        public int GetCardValue(Suit trumpSuit)
+        {
+            int cardValue = Face.Value();
+
+            return IsTrumpSuit(trumpSuit) ? cardValue + 100 : cardValue;
+        }
+
+        private bool IsTrumpSuit(Suit trumpSuit)
+            => trumpSuit == Suit ? true : false;
     }
 }

@@ -1,14 +1,13 @@
-﻿using CardGameWar.Enums;
-using CardGameWar.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGameWar.Models
 {
     public class Deck
     {
         public List<Card> Cards { get; private set; } = new List<Card>();
-
+        private bool isShuffled = false;
         public void Initialize()
         {
             for (int i = 0; i < 4; i++)
@@ -22,23 +21,18 @@ namespace CardGameWar.Models
 
         public void Deal(Player playerOne, Player playerTwo)
         {
-            if (Cards.Count == 0)
-                throw new Exception("Deck is not initialized.");
+            if (!isShuffled)
+                throw new Exception("Deck was not shuffled.");
 
-            PlayerTurn currentPlayer = PlayerTurn.First;
-
-            foreach (Card card in Cards)
+            if(Cards.Count % 2 == 0)
             {
-                if (currentPlayer == PlayerTurn.Second)
-                {
-                    playerTwo.Hand.Add(card);
-                    currentPlayer = PlayerTurn.First;
-                }                     
-                else
-                {
-                    playerOne.Hand.Add(card);
-                    currentPlayer = PlayerTurn.Second;
-                }                    
+                int cardsToTake = Cards.Count / 2;
+                playerOne.Hand = Cards.Take(cardsToTake).ToList();
+                playerTwo.Hand = Cards.Skip(cardsToTake).Take(cardsToTake).ToList();
+            }
+            else
+            {
+                throw new Exception("Invalid card count.");
             }
         }
 
@@ -54,6 +48,8 @@ namespace CardGameWar.Models
                 Cards[k] = Cards[n];
                 Cards[n] = value;
             }
+
+            isShuffled = true;
         }        
     }
 }

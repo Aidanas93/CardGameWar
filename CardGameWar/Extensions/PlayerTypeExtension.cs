@@ -1,13 +1,10 @@
-﻿using CardGameWar.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CardGameWar.Models;
 
 namespace CardGameWar.Extensions
 {
     public static class PlayerTypeExtension
     {
-        public static int Value(this PlayerTurn type)
-            => (int)type;
+        public static int Value(this Face type)
+             => (int)type;
     }
 }
