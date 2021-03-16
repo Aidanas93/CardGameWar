@@ -20,7 +20,7 @@ namespace CardGameWar.Models
             }
         }
 
-        public void Deal(List<Player> players)
+        public void Deal(Player playerOne, Player playerTwo)
         {
             if (Cards.Count == 0)
                 throw new Exception("Deck is not initialized.");
@@ -29,14 +29,19 @@ namespace CardGameWar.Models
 
             foreach (Card card in Cards)
             {
-                players[currentPlayer.Value()].Hand.Add(card);
-
                 if (currentPlayer == PlayerTurn.Second)
-                    currentPlayer = PlayerTurn.First;  
+                {
+                    playerTwo.Hand.Add(card);
+                    currentPlayer = PlayerTurn.First;
+                }                     
                 else
+                {
+                    playerOne.Hand.Add(card);
                     currentPlayer = PlayerTurn.Second;
+                }                    
             }
         }
+
         public void Shuffle()
         {
             int n = Cards.Count;
