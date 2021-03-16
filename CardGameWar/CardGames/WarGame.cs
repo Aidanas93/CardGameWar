@@ -40,34 +40,40 @@ namespace CardGameWar.CardGames
                 Card plyerOneCurrentCard = PlayerOne.GetCurrentCard();
                 Card plyerTwoCurrentCard = PlayerOne.GetCurrentCard();
 
-                if ((playerOneHaveTrump && playerTwoHaveTrump) || (!playerOneHaveTrump && !playerTwoHaveTrump))
-                {                    
-                    if (plyerOneCurrentCard.Face == plyerTwoCurrentCard.Face)
-                    {
-                        AddScoreToPlayers();
-                    }
-                    else if (plyerOneCurrentCard.Face < plyerTwoCurrentCard.Face)
-                    {
-                        AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerTwo);
-                    }
-                    else
-                    {
-                        AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerOne);
-                    }
-                }
-                else if(playerOneHaveTrump && !playerTwoHaveTrump)
-                {
-                    AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerOne);
-                }
-                else
-                {
-                    AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerTwo);
-                }
+                CheckCardValues(playerOneHaveTrump, playerTwoHaveTrump, plyerOneCurrentCard, plyerTwoCurrentCard);
 
                 PlayerOne.Hand.Remove(plyerOneCurrentCard);
                 PlayerTwo.Hand.Remove(plyerTwoCurrentCard);
             }
         }
+
+        private void CheckCardValues(bool playerOneHaveTrump, bool playerTwoHaveTrump, Card plyerOneCurrentCard, Card plyerTwoCurrentCard)
+        {
+            if ((playerOneHaveTrump && playerTwoHaveTrump) || (!playerOneHaveTrump && !playerTwoHaveTrump))
+            {
+                if (plyerOneCurrentCard.Face == plyerTwoCurrentCard.Face)
+                {
+                    AddScoreToPlayers();
+                }
+                else if (plyerOneCurrentCard.Face < plyerTwoCurrentCard.Face)
+                {
+                    AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerTwo);
+                }
+                else
+                {
+                    AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerOne);
+                }
+            }
+            else if (playerOneHaveTrump && !playerTwoHaveTrump)
+            {
+                AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerOne);
+            }
+            else
+            {
+                AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerTwo);
+            }
+        }
+
         private void AddScoreToPlayers()
         {
             PlayerOne.ScorePile.Add(PlayerOne.GetCurrentCard());
