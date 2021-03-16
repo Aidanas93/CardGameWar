@@ -12,7 +12,7 @@ namespace CardGameWar.CardGames
         public Player PlayerOne { get; private set; } = new Player();
         public Player PlayerTwo { get; private set; } = new Player();
         public Deck Deck { get; private set; } = new Deck();
-        public Suit TrumpSuit { get; set; }
+        public Suit TrumpSuit { get; private set; }
         public WarGame()
         {
             SetTrumpCard();
