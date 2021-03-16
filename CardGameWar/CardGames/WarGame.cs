@@ -38,15 +38,14 @@ namespace CardGameWar.CardGames
                 {
                     Card plyerOneCurrentCard = PlayerOne.TakeCurrentCard();
                     Card plyerTwoCurrentCard = PlayerOne.TakeCurrentCard();
-                    GameResult result = (GameResult)Math.Sign(plyerOneCurrentCard.GetCardValue(TrumpSuit).CompareTo(plyerTwoCurrentCard.GetCardValue(TrumpSuit)));
 
-                    switch (result)
+                    switch (CompareCards(plyerOneCurrentCard, plyerTwoCurrentCard))
                     {
-                        case GameResult.PlayerOneWon:
+                        case TurnResult.PlayerOneWon:
                             PlayerOne.ScorePile.Add(plyerOneCurrentCard);
                             PlayerOne.ScorePile.Add(plyerTwoCurrentCard);
                             break;
-                        case GameResult.PlayerTwoWon:
+                        case TurnResult.PlayerTwoWon:
                             PlayerTwo.ScorePile.Add(plyerOneCurrentCard);
                             PlayerTwo.ScorePile.Add(plyerTwoCurrentCard);
                             break;
@@ -61,6 +60,23 @@ namespace CardGameWar.CardGames
             {
                 throw new Exception("Invalid card count.");
             }
+        }
+
+        private TurnResult CompareCards(Card plyerOneCard, Card plyerTwoCard)
+        {
+            int firstPlayerCardValue = plyerOneCard.GetCardValue(TrumpSuit);
+            int secondPlayerCardValue = plyerTwoCard.GetCardValue(TrumpSuit);
+
+            if(firstPlayerCardValue - secondPlayerCardValue > 0)
+            {
+                return TurnResult.PlayerOneWon;
+            }
+            else if(firstPlayerCardValue - secondPlayerCardValue < 0)
+            {
+                return TurnResult.PlayerTwoWon;
+            }
+
+            return TurnResult.Tie;
         }
     }
 }

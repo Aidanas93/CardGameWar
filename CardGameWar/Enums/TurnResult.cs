@@ -4,10 +4,10 @@ using System.Text;
 
 namespace CardGameWar.Enums
 {
-    enum GameResult
+    enum TurnResult
     {
-        PlayerOneWon = -1,
-        Tie = 0,
-        PlayerTwoWon = 1,
+        PlayerOneWon,
+        Tie,
+        PlayerTwoWon,
     }
 }
