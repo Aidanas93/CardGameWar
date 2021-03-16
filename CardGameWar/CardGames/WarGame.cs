@@ -32,27 +32,34 @@ namespace CardGameWar.CardGames
 
         private void Play()
         {
-            while(PlayerOne.Hand.Any() && PlayerTwo.Hand.Any())
+            if(Deck.Cards.Count % 2 == 0)
             {
-                Card plyerOneCurrentCard = PlayerOne.TakeCurrentCard();
-                Card plyerTwoCurrentCard = PlayerOne.TakeCurrentCard();
-                GameResult result = (GameResult)Math.Sign(plyerOneCurrentCard.GetCardValue(TrumpSuit).CompareTo(plyerTwoCurrentCard.GetCardValue(TrumpSuit)));
-
-                switch (result)
+                while (PlayerOne.Hand.Any() && PlayerTwo.Hand.Any())
                 {
-                    case GameResult.PlayerOneWon:
-                        PlayerOne.ScorePile.Add(plyerOneCurrentCard);
-                        PlayerOne.ScorePile.Add(plyerTwoCurrentCard);
-                        break;
-                    case GameResult.PlayerTwoWon:
-                        PlayerTwo.ScorePile.Add(plyerOneCurrentCard);
-                        PlayerTwo.ScorePile.Add(plyerTwoCurrentCard);
-                        break;
-                    default:
-                        PlayerOne.ScorePile.Add(plyerOneCurrentCard);
-                        PlayerTwo.ScorePile.Add(plyerTwoCurrentCard);
-                        break;
+                    Card plyerOneCurrentCard = PlayerOne.TakeCurrentCard();
+                    Card plyerTwoCurrentCard = PlayerOne.TakeCurrentCard();
+                    GameResult result = (GameResult)Math.Sign(plyerOneCurrentCard.GetCardValue(TrumpSuit).CompareTo(plyerTwoCurrentCard.GetCardValue(TrumpSuit)));
+
+                    switch (result)
+                    {
+                        case GameResult.PlayerOneWon:
+                            PlayerOne.ScorePile.Add(plyerOneCurrentCard);
+                            PlayerOne.ScorePile.Add(plyerTwoCurrentCard);
+                            break;
+                        case GameResult.PlayerTwoWon:
+                            PlayerTwo.ScorePile.Add(plyerOneCurrentCard);
+                            PlayerTwo.ScorePile.Add(plyerTwoCurrentCard);
+                            break;
+                        default:
+                            PlayerOne.ScorePile.Add(plyerOneCurrentCard);
+                            PlayerTwo.ScorePile.Add(plyerTwoCurrentCard);
+                            break;
+                    }
                 }
+            }
+            else
+            {
+                throw new Exception("Invalid card count.");
             }
         }
     }
