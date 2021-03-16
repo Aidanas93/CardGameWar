@@ -20,6 +20,7 @@ namespace CardGameWar.CardGames
             Deck.Initialize();
             Deck.Shuffle();
             Deck.Deal(PlayerOne, PlayerTwo);
+
             Play();
         }
 
