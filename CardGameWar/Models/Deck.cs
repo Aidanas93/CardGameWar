@@ -35,6 +35,9 @@ namespace CardGameWar.Models
                 else
                     currentPlayer = PlayerTurn.Second;
             }
+
+            if (players[0].Hand.Count != players[2].Hand.Count)
+                throw new Exception("Card count doesnt match.");
         }
         public void Shuffle()
         {
