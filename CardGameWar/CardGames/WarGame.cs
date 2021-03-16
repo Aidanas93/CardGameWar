@@ -66,6 +66,7 @@ namespace CardGameWar.CardGames
                 {
                     AddScoreToPlayer(plyerOneCurrentCard, plyerTwoCurrentCard, PlayerTwo);
                 }
+
                 PlayerOne.Hand.Remove(plyerOneCurrentCard);
                 PlayerTwo.Hand.Remove(plyerTwoCurrentCard);
 
