@@ -32,9 +32,6 @@ namespace CardGameWar.CardGames
 
         private void Play()
         {
-            PlayerTurn currentPlayer = PlayerTurn.First;
-            PlayerTurn opponentPlayer = PlayerTurn.Second;
-
             while(PlayerOne.Hand.Any() && PlayerTwo.Hand.Any())
             {
                 bool playerOneHaveTrump = PlayerOne.IsTrumpSuit(TrumpSuit);
@@ -69,10 +66,6 @@ namespace CardGameWar.CardGames
 
                 PlayerOne.Hand.Remove(plyerOneCurrentCard);
                 PlayerTwo.Hand.Remove(plyerTwoCurrentCard);
-
-                PlayerTurn playerToRemember = currentPlayer;
-                currentPlayer = opponentPlayer;
-                opponentPlayer = playerToRemember;
             }
         }
         private void AddScoreToPlayers()
